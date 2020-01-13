@@ -4,9 +4,9 @@ var prefix = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
+var php = require('gulp-connect-php');
 
 var paths = {
-
     styles: {
         src: './assets/sass',
         files: './assets/sass/**/*.scss',
@@ -15,7 +15,9 @@ var paths = {
 
     fonts: {
         src: './assets/fonts',
-        files: [],
+        files: [
+            './node_modules/@fortawesome/fontawesome-pro/webfonts/*'
+        ],
         dest: './public/fonts'
     },
 
@@ -49,7 +51,7 @@ var displayError = function(error) {
     console.error(errorString);
 };
 
-gulp.task('sass', function (){
+gulp.task('sass', (done) => {
     gulp.src(paths.styles.files)
         .pipe(sass({
             outputStyle: 'compressed',
@@ -64,40 +66,49 @@ gulp.task('sass', function (){
         ))
         .pipe(gulp.dest(paths.styles.dest))
         .pipe(browserSync.reload({ stream:true }));
+    done();
 });
 
-gulp.task('fonts', function (){
+gulp.task('fonts', (done) => {
     gulp.src(paths.fonts.files)
         .pipe(gulp.dest(paths.fonts.dest))
         .pipe(browserSync.reload({ stream:true }));
+    done();
 });
 
-gulp.task('js', function (){
+gulp.task('js', (done) => {
     gulp.src(paths.javascripts.files)
         .pipe(sourcemaps.init())
         .pipe(concat('all.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.javascripts.dest))
         .pipe(browserSync.reload({ stream:true }));
+    done();
 });
 
-gulp.task('html', function(){
+gulp.task('html', (done) => {
     gulp.src(paths.html.files)
         .pipe(browserSync.reload());
+    done();
 });
 
-gulp.task('browserSync', function() {
+gulp.task('php', (done) => {
+    php.server({base:'./public/', port:8010, keepalive:true});
+    done();
+});
+
+gulp.task('browserSync', gulp.parallel('php', (done) => {
     browserSync.init({
-        files: ['public/**/*.js', 'public/**/*.css', 'public/*.php'],
-        server: {
-            baseDir: 'public',
-            index: "/index.php"
-        }
-    })
-});
+        proxy: 'localhost:8010',
+        files: ['./public/**/*.js', './public/**/*.css', './**/*.php'],
+    });
+    done();
+}));
 
-gulp.task('default', ['sass', 'fonts', 'js', 'browserSync'], function() {
-    gulp.watch(paths.styles.files, ['sass']);
-    gulp.watch(paths.javascripts.files, ['js']);
-    gulp.watch(paths.html.files, ['html']);
-});
+gulp.task('default', gulp.series(gulp.parallel('sass', 'fonts', 'js'), 'browserSync', (done) => {
+    gulp.watch(paths.styles.files, gulp.series('sass'));
+    gulp.watch(paths.javascripts.files, gulp.series('js'));
+    gulp.watch(paths.fonts.files, gulp.series('fonts'));
+    gulp.watch(paths.html.files, gulp.series('html'));
+    done();
+}));

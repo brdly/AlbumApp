@@ -8,6 +8,9 @@
 /public/bundles/
 /var/
 /vendor/
+/public/css/
+/public/js/
+/public/fonts/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

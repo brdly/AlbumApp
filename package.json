@@ -16,9 +16,13 @@
     "jquery": "^3.4.1"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-pro": "^5.12.0",
     "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-concat": "^2.6.1",
+    "gulp-connect-php": "^1.0.3",
+    "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5"
   }
 }

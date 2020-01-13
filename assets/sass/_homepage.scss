@@ -1,0 +1,21 @@
+#homepage-jumbotron {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 48px);
+    z-index: -1;
+    display: flex;
+    align-items: center;
+}
+
+#homepage-jumbotron > .row {
+    width: 100%;
+}
+
+#homepage-jumbotron > .row > .col-8 {
+    display: flex;
+    align-items: center;
+}
+
+.homepage .container {
+    //
+}

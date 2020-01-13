@@ -2,11 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>myTunes | {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="/css/styles.css">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="{% block bodyclass %}{% endblock %}">
+        {% include 'header.html.twig' %}
         {% block body %}{% endblock %}
+        {% include 'footer.html.twig' %}
+        <script src="/js/all.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
