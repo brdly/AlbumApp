@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ album.name }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>{{ album.name }} <i class="album-artist text-muted">{{ album.artist }}</i></h1>
+    <div class="album">
+        <img src="{{ asset( '/uploads/covers/' ) }}{{ album.cover }}" class="cover">
+        <ol class="tracklist">
+            {% for track in album.tracks %}
+                <li>{{ track.name }} <i class="track-artist text-muted">{{ track.artist }}</i></li>
+            {% endfor %}
+        </ol>
+    </div>
+    <p><a href="/album/{{ album.id }}/track/new" class="btn btn-primary">New Track</a></p>
+    <h2>Reviews</h2>
+    <p><a href="/album/{{ album.id }}/review/new" class="btn btn-primary">New Review</a></p>
+    {% for review in album.reviews %}
+        <div>
+            <h3>{{ review.title }}</h3>
+            <p>{{ review.review }}</p>
+            <p>By: <i>{{ review.getUser().username }}</i></p>
+            <hr>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

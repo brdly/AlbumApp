@@ -1,0 +1,13 @@
+.album-artist, .track-artist {
+    font-size: 0.6em;
+}
+
+.album {
+    display: flex;
+    align-items: center;
+
+    .cover {
+        width: 20%;
+        margin: 15%;
+    }
+}

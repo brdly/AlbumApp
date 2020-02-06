@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Album{% endblock %}
+
+{% block bodyclass %}authpage{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            New Track
+        </div>
+        <div class="card-body">
+            {% if responses is defined %}
+                <div class="alert alert-success" role="alert">
+                    <ul>
+                        {% for response in responses %}
+                            <li>{{ response }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% if errors is defined %}
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {{ form(newTrackForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

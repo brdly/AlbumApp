@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AlbumRepository")
@@ -38,11 +40,19 @@ class Album
 
     /**
      * @ORM\OneToMany(targetEntity="Track", mappedBy="album")
+     * @ORM\OrderBy({"number" = "ASC"})
      */
     private $tracks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="album")
+     * @ORM\OrderBy({"created_at" = "DESC"})
+     */
+    private $reviews;
+
     public function __construct() {
         $this->tracks = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,5 +106,15 @@ class Album
         $this->cover = $cover;
 
         return $this;
+    }
+
+    public function getTracks(): Collection
+    {
+        return $this->tracks;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 }

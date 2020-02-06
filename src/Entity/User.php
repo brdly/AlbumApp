@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -28,7 +29,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=2048, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      */
     private $username;
@@ -43,7 +44,7 @@ class User implements UserInterface
      * The below length depends on the "algorithm" you use for encoding
      * the password, but this works well with bcrypt.
      *
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255)
      */
     private $password;
 
@@ -52,9 +53,16 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="user")
+     * @ORM\OrderBy({"created_at" = "DESC"})
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->roles = array('ROLE_USER');
+        $this->reviews = new ArrayCollection();
     }
 
     // other properties and methods
@@ -117,5 +125,15 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
+    }
+
+    public function getTracks(): Collection
+    {
+        return $this->tracks;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 }

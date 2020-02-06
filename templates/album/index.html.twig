@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Albums{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Albums</h1>
+    <div class="card-columns">
+        {% for album in albums %}
+            <div class="card">
+                <img src="{{ asset( '/uploads/covers/' ) }}{{ album.cover }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ album.name }}</h5>
+                    <p class="card-text">
+                        Artist: {{ album.artist }}<br/>
+                        Release Year: {{ album.year }}<br/>
+                        <a href="/album/{{ album.id }}" class="btn btn-primary">View Album</a>
+                    </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <p><a href="/album/new" class="btn btn-primary">Add New Album</a></p>
+</div>
+{% endblock %}

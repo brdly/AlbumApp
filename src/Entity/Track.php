@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Album;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrackRepository")
@@ -27,7 +28,7 @@ class Track
     private $artist;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
     private $number;
 
@@ -40,6 +41,18 @@ class Track
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAlbum(): ?string
+    {
+        return $this->album;
+    }
+
+    public function setAlbum(Album $album): self
+    {
+        $this->album = $album;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -66,12 +79,12 @@ class Track
         return $this;
     }
 
-    public function getNumber(): ?string
+    public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function setNumber(string $number): self
+    public function setNumber(int $number): self
     {
         $this->number = $number;
 
